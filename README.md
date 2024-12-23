@@ -1,18 +1,22 @@
-# OLLAMA #
+# Knowledge Miner #
 
-This branch holds some very useful pieces of ollama related code which I have found
-to be useful for me 
+This branch holds the latest up to date code for knowledge miner
 
 # Branch Structure #
+
 
 ### How do I get set up? ###
 
 This branch was built using :
-* Distributor ID:	Debian
-* Description:	Debian GNU/Linux 11 (bullseye)
-* Release:	11
-* Codename:	bullseye
-* python 3.11.10
+
+`lsb_release -a`
+* Distributor ID:	Ubuntu
+* Description:	Ubuntu 20.04.6 LTS
+* Release:	20.04
+* Codename:	focal
+
+`python --version`
+* Python 3.11.10
 
 # Updates #
 24/12/2024
