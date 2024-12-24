@@ -101,6 +101,29 @@ def get_markdowns(
         _ = pool.starmap(get_partition_markdown, parallel_inputs)
 
     return
+    
+
+def get_figs_and_tables_partition(processed_folder: str, partition: List):
+
+    model = load_model(checkpoint=settings.LAYOUT_MODEL_CHECKPOINT)
+    processor = load_processor(checkpoint=settings.LAYOUT_MODEL_CHECKPOINT)
+    det_model = load_model()
+    det_processor = load_processor()
+
+    for pdf_name, pdf_page_file in partition:
+        processed
+
+
+def get_figs_and_tables(processed_folder: str, num_cores: int, partitions: List):
+    parallel_inputs = []
+
+    for partition in partitions:
+        parallel_inputs += [(processed_folder, partition)]
+
+    with Pool(processes=num_cores) as pool:
+        _ = pool.starmap(caption_images_from_partition, parallel_inputs)
+
+    return
 
 
 def get_table_caption(table_image_path: str, page_image_path: str, page_md: str):
