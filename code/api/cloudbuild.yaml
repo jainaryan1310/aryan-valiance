@@ -1,0 +1,39 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    args:
+      [
+        "-c",
+        "docker pull gcr.io/$PROJECT_ID/kavach-genai-ongc:latest || exit 0",
+      ]
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "build"
+      - "-t"
+      - "gcr.io/$PROJECT_ID/kavach-genai-ongc:latest"
+      - "-f"
+      - "code/api/Dockerfile"  # Specify the Dockerfile path
+      - "--cache-from"
+      - "gcr.io/$PROJECT_ID/kavach-genai-ongc:latest"
+      - "code/api"  # Specify the build context (where your code is)
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/kavach-genai-ongc"]
+
+  # Retry the deployment step with a wait tim
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        # Retry the deployment step up to 3 times with a wait time
+        for i in {1..3}; do
+          gcloud run deploy kavach-genai-backend-ongc \
+            --image=gcr.io/$PROJECT_ID/kavach-genai-ongc \
+            --region=asia-south1 \
+            --allow-unauthenticated \
+            --port=8000 \
+            --cpu=1 \
+            --memory=1Gi && break || sleep 30
+        done
+options:
+  logging: CLOUD_LOGGING_ONLY
