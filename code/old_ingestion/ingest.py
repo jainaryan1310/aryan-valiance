@@ -22,7 +22,6 @@ from loguru import logger
 from mp_utils import partition_pages_to_multiprocess
 from preprocess import (
     caption_images_from_pdfs,
-    get_figs_and_tables,
     get_markdowns,
     split_pdfs,
 )
@@ -51,9 +50,6 @@ if __name__ == "__main__":
 
     get_markdowns(split_folder, processed_folder, num_ocr_cores, partitions)
     logger.info("Extracted markdown from the pages")
-
-    get_figs_and_tables(processed_folder, num_ocr_cores, partitions)
-    logger.info("Extracted figures and tables from the pages")
 
     partitions = partition_pages_to_multiprocess(
         split_folder, processed_folder, num_cores, num_pages
